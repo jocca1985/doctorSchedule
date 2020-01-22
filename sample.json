@@ -1,0 +1,146 @@
+{
+  "num_rooms": "10",
+  "num_days": "30",
+  "num_doctors": "32",
+  "constraints": [
+    {
+      "doctor": "Gorker",
+      "room": ""
+    },
+    {
+      "doctor": "John",
+      "room": ""
+    },
+    {
+      "doctor": "Mark",
+      "room": ""
+    },
+    {
+      "doctor": "DoctorX",
+      "room": ""
+    },
+    {
+      "doctor": "doctor0",
+      "room": "1"
+    },
+    {
+      "doctor": "",
+      "room": "0"
+    },
+    {
+      "doctor": "",
+      "room": "2"
+    },
+    {
+      "doctor": "",
+      "room": "3"
+    },
+    {
+      "doctor": "pppp",
+      "room": "4"
+    },
+    {
+      "doctor": "tttt",
+      "room": "5"
+    },
+    {
+      "doctor": "eeee",
+      "room": "6"
+    },
+    {
+      "doctor": "ooooo",
+      "room": "7"
+    },
+    {
+      "doctor": "zzzz",
+      "room": "8"
+    },
+    {
+      "doctor": "wwww",
+      "room": "9"
+    },
+    {
+      "doctor": "iiii",
+      "room": ""
+    },
+    {
+      "doctor": "uuuu",
+      "room": ""
+    },
+    {
+      "doctor": "yyyy",
+      "room": ""
+    },
+    {
+      "doctor": "tttt",
+      "room": ""
+    },
+    {
+      "doctor": "rrrr",
+      "room": ""
+    },
+    {
+      "doctor": "eeee",
+      "room": ""
+    },
+    {
+      "doctor": "wwww",
+      "room": ""
+    },
+    {
+      "doctor": "qqqq",
+      "room": ""
+    },
+    {
+      "doctor": "hhhh",
+      "room": ""
+    },
+    {
+      "doctor": "gggg",
+      "room": ""
+    },
+    {
+      "doctor": "ffff",
+      "room": ""
+    },
+    {
+      "doctor": "dddd",
+      "room": ""
+    },
+    {
+      "doctor": "sss",
+      "room": ""
+    },
+    {
+      "doctor": "aaaa",
+      "room": ""
+    },
+    {
+      "doctor": "zzzz",
+      "room": ""
+    },
+    {
+      "doctor": "ccccc",
+      "room": ""
+    },
+    {
+      "doctor": "xxxx",
+      "room": ""
+    },
+    {
+      "doctor": "vvv",
+      "room": ""
+    },
+    {
+      "doctor": "bbbb",
+      "room": ""
+    },
+    {
+      "doctor": "nnnn",
+      "room": ""
+    },{
+      "doctor": "mmmmm",
+      "room": ""
+    }
+  ]
+}
