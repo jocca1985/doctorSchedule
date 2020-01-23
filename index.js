@@ -50,7 +50,7 @@ function show() {
 }
 
 function combine(){
-    let data = {"num_rooms":document.getElementById("rooms").value,"num_days": document.getElementById("days").value, "num_doctors":get_constraints().length, "constraints":get_constraints()}
+    let data = {"num_rooms":document.getElementById("rooms").value,"num_days": document.getElementById("days").value, "num_doctors":document.getElementById("doctors").value, "constraints":get_constraints()}
     fetch('https://grehv0h888.execute-api.us-east-1.amazonaws.com/stage/combine', {
       method: 'POST', // or 'PUT'
       headers: {

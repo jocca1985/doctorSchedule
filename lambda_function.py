@@ -31,8 +31,8 @@ def lambda_handler(event, context):
     # (3 shifts per day, for 7 days), subject to some constraints (see below).
     # Each nurse can request to be assigned to specific shifts.
     # The optimal assignment maximizes the number of fulfilled shift requests.
-    # body = json.loads(event['body'])
-    body = event
+    body = json.loads(event['body'])
+    # body = event
     num_nurses = int(body['num_doctors'])
     num_shifts = 1
     num_days = int(body['num_days'])
@@ -53,12 +53,12 @@ def lambda_handler(event, context):
     #                   [1, 0, 0], [0, 0, 0]],
     #                   [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 0, 0], [1, 0, 0],
     #                   [0, 1, 0], [0, 0, 0]]]
-    room_requests = [ [0]*num_rooms for _ in all_nurses ]
-    for n in all_nurses:
-        if (constraints[n]['room']):
-            room_number = int(constraints[n]['room'])
-            room_requests[n][room_number] = 1
-    
+    room_requests = [ [0]*num_nurses for _ in all_rooms ]
+    for n, item in enumerate(constraints):
+        if (constraints[n]['doctor']):
+            doctor_number = int(constraints[n]['doctor'])
+            room_requests[n][doctor_number] = 1
+    print(room_requests)
     # Creates the model.
     model = cp_model.CpModel()
 
@@ -84,7 +84,7 @@ def lambda_handler(event, context):
     # for d in all_days:
     #     for s in all_shifts:
     #         model.Add(shifts[(0, d, s, 0)] == 1)
-    model.Maximize(sum(room_requests[i][r]*shifts[(i, d, r)] for i in range(len(room_requests)) for d in all_days for r in all_rooms))
+    model.Maximize(sum(room_requests[r][i]*shifts[(i, d, r)] for i in range(len(room_requests)) for d in all_days for r in all_rooms))
     # min_shifts_assigned is the largest integer such that every nurse can be
     # assigned at least that number of shifts.
     min_shifts_per_nurse = (num_rooms*num_shifts * num_days) // num_nurses
@@ -105,17 +105,17 @@ def lambda_handler(event, context):
     print("Solved")
     data = AutoVivification()
     for d in all_days:
-        print('Day', d)
         for n in all_nurses:
             for r in all_rooms:
                 if solver.Value(shifts[(n, d, r)]) == 1:
-                    if n<len(room_requests) and room_requests[n][r] == 1:
-                        data["Day"+str(d)]["Room"+str(r)]= constraints[n]['doctor']
-                        print('Nurse', constraints[n]['doctor'], 'works ' , 'in room', r, '(requested).')
+                    print(r,n)
+                    if n<len(room_requests) and room_requests[r][n] == 1:
+                        data["Day"+str(d)][constraints[r]['room']]= n
+                        # print('Nurse', constraints[n]['doctor'], 'works ' , 'in room', r, '(requested).')
                     else:
-                        data["Day"+str(d)]["Room"+str(r)]=constraints[n]['doctor']
-                        print('Nurse', constraints[n]['doctor'], 'works', 'in room', r, '(not requested).')
-        print()
+                        data["Day"+str(d)][constraints[r]['room']]= n
+                        # print('Nurse', constraints[n]['doctor'], 'works', 'in room', r, '(not requested).')
+        # print()
 
     df = pd.DataFrame.from_dict({(i): data[i] 
                            for i in data.keys() 
