@@ -2,7 +2,6 @@ from __future__ import print_function
 from ortools.sat.python import cp_model
 import json
 import collections
-import csv
 import pandas as pd
 from collections import defaultdict
 import boto3
@@ -15,43 +14,45 @@ class AutoVivification(dict):
         except KeyError:
             value = self[item] = type(self)()
             return value
+            
+def upload(source_file, bucket_name, object_key):
+    s3 = boto3.resource('s3')
 
-def main():
+    # Uploads the source file to the specified s3 bucket by using a
+    # managed uploader. The uploader automatically splits large
+    # files and uploads parts in parallel for faster uploads.
+    try:
+        return s3.Bucket(bucket_name).upload_file(source_file, object_key)
+    except Exception as e:
+        print(e)
+        
+def lambda_handler(event, context):
     # This program tries to find an optimal assignment of nurses to shifts
     # (3 shifts per day, for 7 days), subject to some constraints (see below).
     # Each nurse can request to be assigned to specific shifts.
     # The optimal assignment maximizes the number of fulfilled shift requests.
-    num_nurses = 13
+    # body = json.loads(event['body'])
+    body = event
+    num_nurses = int(body['num_doctors'])
     num_shifts = 1
-    num_days = 7
-    num_rooms = 4
-    all_nurses = range(num_nurses)
-    all_shifts = range(num_shifts)
-    all_rooms = range(num_rooms)
-    all_days = range(num_days)
-    # shift_requests = [[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
-    #                    [0, 0, 0], [0, 0, 0]],
-    #                    [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
-    #                    [0, 0, 0], [0, 0, 0]],
-    #                    [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
-    #                    [0, 0, 0], [0, 0, 0]],
-    #                    [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
-    #                    [0, 0, 0], [0, 0, 0]],
-    #                    [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
-    #                    [0, 0, 0], [0, 0, 0]],
-    #                    [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
-    #                    [0, 0, 0], [0, 0, 0]],
-    #                    [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
-    #                    [0, 0, 0], [0, 0, 0]],
-    #                   [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
-    #                    [0, 0, 0], [0, 0, 0]],
-    #                   [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
-    #                    [0, 0, 0], [0, 0, 0]],
-    #                   [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
-    #                    [0, 0, 0], [0, 0, 0]],
-    #                   [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
-    #                    [0, 0, 0], [0, 0, 0]]]
+    num_days = int(body['num_days'])
+    num_rooms = int(body['num_rooms'])
+    constraints = body['constraints']
 
+    all_nurses = range(num_nurses)
+    # all_shifts = range(num_shifts)
+    all_days = range(num_days)
+    all_rooms = range(num_rooms)
+    # shift_requests = [[[0, 0, 1], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 1],
+    #                   [0, 1, 0], [0, 0, 1]],
+    #                   [[0, 0, 0], [0, 0, 0], [0, 1, 0], [0, 1, 0], [1, 0, 0],
+    #                   [0, 0, 0], [0, 0, 1]],
+    #                   [[0, 1, 0], [0, 1, 0], [0, 0, 0], [1, 0, 0], [0, 0, 0],
+    #                   [0, 1, 0], [0, 0, 0]],
+    #                   [[0, 0, 1], [0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 0],
+    #                   [1, 0, 0], [0, 0, 0]],
+    #                   [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 0, 0], [1, 0, 0],
+    #                   [0, 1, 0], [0, 0, 0]]]
     room_requests = [ [0]*num_rooms for _ in all_nurses ]
     for n in all_nurses:
         if (constraints[n]['room']):
@@ -130,14 +131,11 @@ def main():
         'headers':{'Content-Type':'application/json','Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'*'},
         'body':json.dumps({'url': url})
     }
-    print(result)
-    # Statistics.
-    print()
-    print('Statistics')
-    print('  - Number of shift requests met = %i' % solver.ObjectiveValue(),
-          '(out of', num_nurses * min_shifts_per_nurse, ')')
-    print('  - wall time       : %f s' % solver.WallTime())
-
-
-if __name__ == '__main__':
-    main()
+    # print(result)
+    # # Statistics.
+    # print()
+    # print('Statistics')
+    # print('  - Number of shift requests met = %i' % solver.ObjectiveValue(),
+    #       '(out of', num_nurses * min_shifts_per_nurse, ')')
+    # print('  - wall time       : %f s' % solver.WallTime())
+    return result
