@@ -1,8 +1,8 @@
 # doctorSchedule
 
-Install dependencies
-python -m pip install --upgrade --user ortools
-pip install pandas
+## Install dependencies
+- python -m pip install --upgrade --user ortools
+- pip install pandas
 
-Run
-python run.py
+## Run
+- python run.py
