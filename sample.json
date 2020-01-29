@@ -1,146 +1,52 @@
 {
-  "num_rooms": "10",
+  "num_rooms": "11",
   "num_days": "30",
-  "num_doctors": "32",
+  "num_doctors": "12",
+  "vacation":[],
   "constraints": [
     {
-      "doctor": "Gorker",
-      "room": ""
-    },
-    {
-      "doctor": "John",
-      "room": ""
-    },
-    {
-      "doctor": "Mark",
-      "room": ""
-    },
-    {
-      "doctor": "DoctorX",
-      "room": ""
-    },
-    {
-      "doctor": "doctor0",
-      "room": "1"
+      "doctor": "",
+      "room": "P1"
     },
     {
       "doctor": "",
-      "room": "0"
+      "room": "P2"
     },
     {
       "doctor": "",
-      "room": "2"
+      "room": "P3"
     },
     {
       "doctor": "",
-      "room": "3"
+      "room": "P4"
     },
     {
-      "doctor": "pppp",
-      "room": "4"
+      "doctor": "1",
+      "room": "HEYET"
     },
     {
-      "doctor": "tttt",
-      "room": "5"
+      "doctor": "",
+      "room": "Icap"
     },
     {
-      "doctor": "eeee",
-      "room": "6"
+      "doctor": "2",
+      "room": "Gecici gorev+izin"
     },
     {
-      "doctor": "ooooo",
-      "room": "7"
+      "doctor": "",
+      "room": "A1"
     },
     {
-      "doctor": "zzzz",
-      "room": "8"
+      "doctor": "",
+      "room": "A2"
     },
     {
-      "doctor": "wwww",
-      "room": "9"
+      "doctor": "",
+      "room": "A3(1)"
     },
     {
-      "doctor": "iiii",
-      "room": ""
-    },
-    {
-      "doctor": "uuuu",
-      "room": ""
-    },
-    {
-      "doctor": "yyyy",
-      "room": ""
-    },
-    {
-      "doctor": "tttt",
-      "room": ""
-    },
-    {
-      "doctor": "rrrr",
-      "room": ""
-    },
-    {
-      "doctor": "eeee",
-      "room": ""
-    },
-    {
-      "doctor": "wwww",
-      "room": ""
-    },
-    {
-      "doctor": "qqqq",
-      "room": ""
-    },
-    {
-      "doctor": "hhhh",
-      "room": ""
-    },
-    {
-      "doctor": "gggg",
-      "room": ""
-    },
-    {
-      "doctor": "ffff",
-      "room": ""
-    },
-    {
-      "doctor": "dddd",
-      "room": ""
-    },
-    {
-      "doctor": "sss",
-      "room": ""
-    },
-    {
-      "doctor": "aaaa",
-      "room": ""
-    },
-    {
-      "doctor": "zzzz",
-      "room": ""
-    },
-    {
-      "doctor": "ccccc",
-      "room": ""
-    },
-    {
-      "doctor": "xxxx",
-      "room": ""
-    },
-    {
-      "doctor": "vvv",
-      "room": ""
-    },
-    {
-      "doctor": "bbbb",
-      "room": ""
-    },
-    {
-      "doctor": "nnnn",
-      "room": ""
-    },{
-      "doctor": "mmmmm",
-      "room": ""
+      "doctor": "",
+      "room": "A3(1)"
     }
   ]
 }
